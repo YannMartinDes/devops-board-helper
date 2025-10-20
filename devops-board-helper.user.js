@@ -13,6 +13,7 @@
 	"use strict";
 
 	const words = [
+		"Victor",
 		"Yohann",
 		"Yann",
 		"Loic",
