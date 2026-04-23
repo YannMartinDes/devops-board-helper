@@ -12,7 +12,7 @@
 (function() {
     'use strict';
 
-    const words = ['Victor', 'Yohann','Yann','Loic','Florian','Johann','Leo','Nicolas T','Nassim','Djampa','Marine C','Manon','Marine G']; // 👉 Customize this list
+    const words = ['Victor', 'Yohann','Yann','Loic','Florian','Leo','Nicolas T','Nassim','Anwar','Thomas M','Marine C','Manon','Marine G']; // 👉 Customize this list
     let currentIndex = 0;
 
     function insertWord(word) {
@@ -41,11 +41,14 @@
     }
 
     function addArrowButtons() {
-        const filterBar = document.getElementById('__bolt-filter-bar-0');
+        const input = document.querySelector('input[aria-label="Filter by keyword"]');
+        if (!input) return;
+
+        const filterBar = input.closest('div');
         if (!filterBar) return;
+
         if (document.getElementById('arrowInsertContainer')) return;
 
-        // Create container
         const container = document.createElement('div');
         container.id = 'arrowInsertContainer';
         container.style.display = 'flex';
@@ -53,7 +56,6 @@
         container.style.gap = '8px';
         container.style.marginLeft = '10px';
 
-        // Create buttons
         const prevBtn = document.createElement('button');
         const nextBtn = document.createElement('button');
 
@@ -65,7 +67,6 @@
             btn.style.cursor = 'pointer';
         });
 
-        // Behavior: insert current word, then update index for next click
         const updateWord = (direction) => {
             if (direction === 'prev') {
                 currentIndex = (currentIndex - 1 + words.length) % words.length;
@@ -81,17 +82,10 @@
 
         container.appendChild(prevBtn);
         container.appendChild(nextBtn);
+
         filterBar.appendChild(container);
     }
 
-    // Wait for Azure Boards to finish loading
-    const observer = new MutationObserver(() => {
-        const filterBar = document.getElementById('__bolt-filter-bar-0');
-        if (filterBar) {
-            addArrowButtons();
-            observer.disconnect();
-        }
-    });
-
-    observer.observe(document.body, { childList: true, subtree: true });
+    // 🔁 Keep trying
+    setInterval(addArrowButtons, 1000);
 })();
